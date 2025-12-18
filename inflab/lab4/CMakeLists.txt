@@ -3,7 +3,6 @@ project(untitled)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Homebrew paths for ARM (M1, M2, M3, M4)
 set(BREW_PREFIX "/opt/homebrew")
 
 include_directories(
