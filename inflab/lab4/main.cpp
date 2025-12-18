@@ -7,7 +7,7 @@
 using namespace std;
 using namespace pqxx;
 
-// Простое подключение
+
 connection* connectDB() {
     try {
         return new connection("dbname=library");
@@ -16,7 +16,7 @@ connection* connectDB() {
     }
 }
 
-// Логирование
+
 void logToFile(const string& msg) {
     ofstream log("log.txt", ios::app);
     if (log) {
@@ -25,7 +25,7 @@ void logToFile(const string& msg) {
     }
 }
 
-// Добавить автора
+
 void addAuthor(connection* conn) {
     string name;
     int year;
@@ -47,7 +47,7 @@ void addAuthor(connection* conn) {
     }
 }
 
-// Добавить книгу
+
 void addBook(connection* conn) {
     string title, genre;
     int author_id, year;
@@ -73,7 +73,7 @@ void addBook(connection* conn) {
     }
 }
 
-// Добавить пользователя
+
 void addUser(connection* conn) {
     string name;
     cout << "Имя пользователя: ";
@@ -91,7 +91,7 @@ void addUser(connection* conn) {
     }
 }
 
-// Выдать книгу
+
 void borrowBook(connection* conn) {
     int user_id, book_id;
     cout << "ID пользователя: ";
@@ -103,7 +103,7 @@ void borrowBook(connection* conn) {
     try {
         work txn(*conn);
 
-        // Проверка доступности
+
         result check = txn.exec_params("SELECT id FROM borrowed_books WHERE book_id = $1 AND return_date IS NULL", book_id);
         if (check.size() > 0) {
             cout << "Книга уже выдана" << endl;
@@ -119,7 +119,7 @@ void borrowBook(connection* conn) {
     }
 }
 
-// Вернуть книгу
+
 void returnBook(connection* conn) {
     int book_id;
     cout << "ID книги для возврата: ";
@@ -137,9 +137,7 @@ void returnBook(connection* conn) {
     }
 }
 
-// Аналитические запросы
 
-// 1. Книги автора
 void booksByAuthor(connection* conn) {
     string author_name;
     cout << "Имя автора: ";
@@ -164,7 +162,7 @@ void booksByAuthor(connection* conn) {
     }
 }
 
-// 2. Пользователи за год (COUNT)
+
 void usersLastYear(connection* conn) {
     try {
         nontransaction ntx(*conn);
@@ -177,7 +175,7 @@ void usersLastYear(connection* conn) {
     }
 }
 
-// 3. Книги за 30 дней
+
 void booksLast30Days(connection* conn) {
     try {
         nontransaction ntx(*conn);
@@ -198,7 +196,7 @@ void booksLast30Days(connection* conn) {
     }
 }
 
-// 4. Топ-3 книги (GROUP BY, COUNT, ORDER BY)
+
 void top3Books(connection* conn) {
     try {
         nontransaction ntx(*conn);
@@ -220,7 +218,7 @@ void top3Books(connection* conn) {
     }
 }
 
-// Меню
+
 void showMenu() {
     cout << "\nБиблиотека" << endl;
     cout << "1. Добавить автора" << endl;
